@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #eeecea;
+  --text: #1a1a18;
+  --text2: #6b6a66;
+  --text3: #9e9d99;
+  --border: rgba(0,0,0,0.1);
+  --border2: rgba(0,0,0,0.18);
+  --accent: #1D9E75;
+  --accent-bg: #E1F5EE;
+  --accent-text: #0F6E56;
+  --accent-border: #1D9E75;
+  --streak: #FAEEDA;
+  --streak-text: #854F0B;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141412;
+    --surface: #1e1e1b;
+    --surface2: #2a2a26;
+    --text: #f0efe9;
+    --text2: #a09f99;
+    --text3: #6b6a63;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --accent: #1D9E75;
+    --accent-bg: #0a2e22;
+    --accent-text: #5DCAA5;
+    --accent-border: #1D9E75;
+    --streak: #2e2006;
+    --streak-text: #EF9F27;
+  }
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 1.75rem;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.today-date {
+  display: block;
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+  font-family: 'DM Mono', monospace;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text2);
+  flex-wrap: wrap;
+}
+
+.week-nav span {
+  min-width: 160px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.week-nav button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+
+.week-nav button:hover { background: var(--surface2); }
+
+.btn-today {
+  background: var(--accent-bg) !important;
+  color: var(--accent-text) !important;
+  border-color: var(--accent-border) !important;
+  font-weight: 500;
+}
+
+/* ── Stats ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── Progress bar ── */
+.prog-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.prog-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.prog-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.prog-label {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  white-space: nowrap;
+}
+
+/* ── Section title ── */
+.section-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  margin: 1.5rem 0 6px;
+}
+
+/* ── Habit rows ── */
+.habits-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.habit-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+.habit-row:last-child { border-bottom: none; }
+.habit-row:hover { background: var(--surface2); }
+
+.habit-emoji {
+  font-size: 16px;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.habit-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Day buttons ── */
+.days-grid {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.day-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  gap: 0;
+  padding: 0;
+}
+
+.day-btn:hover:not(:disabled) {
+  border-color: var(--border2);
+  background: var(--surface2);
+}
+
+.day-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.day-btn.done {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.day-btn .dlabel {
+  font-size: 9px;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  line-height: 1;
+}
+
+.day-btn.done .dlabel { color: var(--accent-text); }
+
+.day-btn .dcheck {
+  font-size: 10px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.day-btn.today-btn {
+  border-color: var(--accent);
+}
+
+.day-btn.today-btn .dlabel { color: var(--accent-text); font-weight: 600; }
+
+/* ── Streak badge ── */
+.streak-badge {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  background: var(--streak);
+  color: var(--streak-text);
+  border-radius: 20px;
+  padding: 3px 8px;
+  min-width: 38px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Remove button ── */
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text3);
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: color 0.1s, background 0.1s;
+}
+
+.remove-btn:hover { color: #E24B4A; background: #FCEBEB; }
+
+/* ── Add button ── */
+.add-btn {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-lg);
+  color: var(--text3);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.add-btn:hover {
+  background: var(--surface);
+  color: var(--text2);
+  border-color: var(--border2);
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  width: 340px;
+  max-width: 100%;
+}
+
+.modal h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin-bottom: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.modal input:focus,
+.modal select:focus { border-color: var(--accent); }
+
+.modal-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modal-btns button {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn-confirm {
+  background: var(--accent-bg);
+  color: var(--accent-text);
+  border-color: var(--accent-border) !important;
+}
+
+.btn-confirm:hover { filter: brightness(0.95); }
+
+.btn-cancel {
+  background: none;
+  color: var(--text2);
+}
+
+.btn-cancel:hover { background: var(--surface2); }
+
+/* ── Responsive mobile ── */
+@media (max-width: 600px) {
+  .page { padding: 1.25rem 1rem 3rem; }
+  .header { flex-direction: column; }
+  .week-nav span { min-width: 120px; font-size: 11px; }
+  .days-grid { gap: 3px; }
+  .day-btn { width: 28px; height: 28px; }
+  .habit-name { font-size: 13px; }
+  .stat-value { font-size: 20px; }
+}
