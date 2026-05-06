@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Hábitos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="header-left">
+        <h1>mis hábitos</h1>
+        <span id="today-date" class="today-date"></span>
+      </div>
+      <div class="week-nav">
+        <button onclick="changeWeek(-1)">&#8592;</button>
+        <span id="week-label"></span>
+        <button onclick="changeWeek(1)">&#8594;</button>
+        <button class="btn-today" onclick="goToday()">hoy</button>
+      </div>
+    </header>
+
+    <div class="stats-row" id="stats-row"></div>
+
+    <div class="prog-wrap">
+      <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar"></div></div>
+      <span class="prog-label" id="prog-label"></span>
+    </div>
+
+    <div id="habits-container"></div>
+
+    <button class="add-btn" onclick="openModal()">+ agregar hábito</button>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>nuevo hábito</h3>
+      <input id="new-name" placeholder="nombre del hábito" />
+      <input id="new-emoji" placeholder="emoji (ej: 📚)" maxlength="2" />
+      <select id="new-cat">
+        <option value="personal">personal</option>
+        <option value="escolar">escolar</option>
+        <option value="salud">salud</option>
+      </select>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeModal()">cancelar</button>
+        <button class="btn-confirm" onclick="addHabit()">agregar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
