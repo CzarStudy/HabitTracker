@@ -1,54 +1,186 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mis Hábitos</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HabitTracker</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="page">
 
-    <header class="header">
-      <div class="header-left">
-        <h1>mis hábitos</h1>
-        <span id="today-date" class="today-date"></span>
-      </div>
-      <div class="week-nav">
-        <button onclick="changeWeek(-1)">&#8592;</button>
-        <span id="week-label"></span>
-        <button onclick="changeWeek(1)">&#8594;</button>
-        <button class="btn-today" onclick="goToday()">hoy</button>
-      </div>
-    </header>
-
-    <div class="stats-row" id="stats-row"></div>
-
-    <div class="prog-wrap">
-      <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar"></div></div>
-      <span class="prog-label" id="prog-label"></span>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">HabitTracker</span>
     </div>
 
-    <div id="habits-container"></div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" data-view="dashboard" onclick="navigate('dashboard')">
+        <span class="nav-icon">▦</span><span>Dashboard</span>
+      </a>
 
-    <button class="add-btn" onclick="openModal()">+ agregar hábito</button>
+      <!-- Hábitos con sub-menú -->
+      <div class="nav-group" id="ng-habitos">
+        <div class="nav-group-header" onclick="toggleGroup('habitos')">
+          <span class="nav-icon">◎</span>
+          <span>Hábitos</span>
+          <span class="nav-chevron">›</span>
+        </div>
+        <div class="nav-group-body">
+          <a class="nav-sub" onclick="navigate('cat','escolar')">
+            <span class="dot" style="background:#4FC3F7"></span>Escolar
+          </a>
+          <a class="nav-sub" onclick="navigate('cat','personal')">
+            <span class="dot" style="background:#F06292"></span>Personal
+          </a>
+          <a class="nav-sub" onclick="navigate('cat','salud')">
+            <span class="dot" style="background:#81C784"></span>Salud
+          </a>
+          <a class="nav-sub" onclick="navigate('cat','finanzas')">
+            <span class="dot" style="background:#FFB74D"></span>Finanzas
+          </a>
+        </div>
+      </div>
 
+      <a class="nav-item" onclick="navigate('gym')">
+        <span class="nav-icon">⊕</span><span>Gym</span>
+      </a>
+      <a class="nav-item" onclick="navigate('stats')">
+        <span class="nav-icon">◈</span><span>Estadísticas</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="sidebar-add-btn" onclick="openAddModal()">+ Agregar hábito</button>
+    </div>
+  </aside>
+
+  <!-- HAMBURGER (mobile) -->
+  <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main" id="main">
+    <div id="view-dashboard"  class="view"></div>
+    <div id="view-cat"        class="view"></div>
+    <div id="view-gym"        class="view"></div>
+    <div id="view-stats"      class="view"></div>
+  </main>
+
+  <!-- ══════════ MODAL: AGREGAR / EDITAR HÁBITO ══════════ -->
+  <div class="modal-overlay" id="modal-habit">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-habit-title">Nuevo hábito</h3>
+        <button class="modal-close" onclick="closeAddModal()">✕</button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex:2">
+          <label>Nombre</label>
+          <input id="h-name" placeholder="ej: Estudiar 1 hora"/>
+        </div>
+        <div class="form-group" style="flex:0 0 72px">
+          <label>Emoji</label>
+          <input id="h-emoji" placeholder="📚" maxlength="2"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select id="h-cat">
+            <option value="escolar">📖 Escolar</option>
+            <option value="personal">🎯 Personal</option>
+            <option value="salud">💪 Salud</option>
+            <option value="finanzas">💰 Finanzas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="h-type">
+            <option value="habit">Hábito diario</option>
+            <option value="task">Tarea (una vez)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción / notas</label>
+        <textarea id="h-notes" placeholder="detalles, recordatorios, instrucciones..." rows="2"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select id="h-priority">
+            <option value="alta">🔴 Alta</option>
+            <option value="media" selected>🟡 Media</option>
+            <option value="baja">🟢 Baja</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Días activos</label>
+          <select id="h-days">
+            <option value="all">Todos los días</option>
+            <option value="weekdays">Lunes a viernes</option>
+            <option value="weekend">Fines de semana</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Color personalizado</label>
+        <div class="color-picker-row" id="color-picker-row">
+          <span class="cp" data-color="#4FC3F7" style="background:#4FC3F7" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#F06292" style="background:#F06292" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#81C784" style="background:#81C784" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#FFB74D" style="background:#FFB74D" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#CE93D8" style="background:#CE93D8" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#FF8A65" style="background:#FF8A65" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#80DEEA" style="background:#80DEEA" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#E6EE9C" style="background:#E6EE9C" onclick="pickColor(this)"></span>
+          <span class="cp" data-color="#F48FB1" style="background:#F48FB1" onclick="pickColor(this)"></span>
+        </div>
+      </div>
+
+      <input type="hidden" id="h-color" value="#4FC3F7"/>
+      <input type="hidden" id="h-edit-id" value=""/>
+
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeAddModal()">Cancelar</button>
+        <button class="btn-confirm" onclick="saveHabit()">Guardar</button>
+      </div>
+    </div>
   </div>
 
-  <div class="modal-overlay" id="modal">
+  <!-- ══════════ MODAL: EDITAR DÍA DE GYM ══════════ -->
+  <div class="modal-overlay" id="modal-gym">
     <div class="modal">
-      <h3>nuevo hábito</h3>
-      <input id="new-name"  placeholder="nombre del hábito" />
-      <input id="new-emoji" placeholder="emoji (ej: 📚)" maxlength="2" />
-      <select id="new-cat">
-        <option value="escolar">escolar</option>
-        <option value="personal">personal</option>
-        <option value="salud">salud</option>
-        <option value="finanzas">finanzas</option>
-      </select>
+      <div class="modal-header">
+        <h3 id="gym-modal-title">Editar rutina</h3>
+        <button class="modal-close" onclick="closeGymModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label>Día</label>
+        <input id="gym-day-label" placeholder="ej: Lunes"/>
+      </div>
+      <div class="form-group">
+        <label>Grupos musculares (separados por coma)</label>
+        <input id="gym-muscles" placeholder="ej: Pecho, Hombro, Tríceps"/>
+      </div>
+      <div class="form-group">
+        <label>¿Día de descanso?</label>
+        <select id="gym-rest">
+          <option value="no">No — día de entreno</option>
+          <option value="yes">Sí — descanso</option>
+        </select>
+      </div>
+      <input type="hidden" id="gym-edit-idx" value=""/>
       <div class="modal-btns">
-        <button class="btn-cancel"  onclick="closeModal()">cancelar</button>
-        <button class="btn-confirm" onclick="addHabit()">agregar</button>
+        <button class="btn-cancel" onclick="closeGymModal()">Cancelar</button>
+        <button class="btn-confirm" onclick="saveGymDay()">Guardar</button>
       </div>
     </div>
   </div>
