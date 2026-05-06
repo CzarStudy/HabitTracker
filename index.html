@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="page">
+
     <header class="header">
       <div class="header-left">
         <h1>mis hábitos</h1>
@@ -31,25 +32,27 @@
     <div id="habits-container"></div>
 
     <button class="add-btn" onclick="openModal()">+ agregar hábito</button>
+
   </div>
 
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <h3>nuevo hábito</h3>
-      <input id="new-name" placeholder="nombre del hábito" />
+      <input id="new-name"  placeholder="nombre del hábito" />
       <input id="new-emoji" placeholder="emoji (ej: 📚)" maxlength="2" />
       <select id="new-cat">
-        <option value="personal">personal</option>
         <option value="escolar">escolar</option>
+        <option value="personal">personal</option>
         <option value="salud">salud</option>
+        <option value="finanzas">finanzas</option>
       </select>
       <div class="modal-btns">
-        <button class="btn-cancel" onclick="closeModal()">cancelar</button>
+        <button class="btn-cancel"  onclick="closeModal()">cancelar</button>
         <button class="btn-confirm" onclick="addHabit()">agregar</button>
       </div>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
